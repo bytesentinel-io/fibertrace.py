@@ -20,7 +20,7 @@ class Logger:
     def __init__(self, log_file_path, application, json_format):
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s [%(levelname)s] [%(application)s] [%(module)s] [%(user)s]: %(message)s')
+        formatter = logging.Formatter('%(asctime)s %(user)s (%(application)s:%(module)s) [%(levelname)s]: %(message)s')
 
         if log_file_path:
             log_file_path = os.path.abspath(log_file_path)
@@ -84,12 +84,12 @@ class Logger:
 
     def log_text(self, log_entry):
         timestamp = log_entry.timestamp
-        log_text = f"[{timestamp}] [{log_entry.level}] [{self.application}] [{log_entry.module}] [{log_entry.user}]: {log_entry.message}"
+        log_text = f"{timestamp} {log_entry.user} ({log_entry.application}:{log_entry.module}) [{log_entry.level}]: {log_entry.message}"
         self.write_to_file(log_text.encode())
 
     def console(self, log_entry):
         timestamp = log_entry.timestamp
-        log_text = f"[{timestamp}] [{log_entry.level}] [{self.application}] [{log_entry.module}] [{log_entry.user}]: {log_entry.message}"
+        log_text = f"{timestamp} {log_entry.user} ({log_entry.application}:{log_entry.module}) [{log_entry.level}]: {log_entry.message}"
         print(log_text)
 
     def write_to_file(self, log_data):
