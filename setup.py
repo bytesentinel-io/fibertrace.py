@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="fibertrace",
-    version="0.1.4",
+    version="0.1.5",
     author="ByteSentinel.io",
     author_email="dev@bytesentinel.io",
     description="A library for simple logging",

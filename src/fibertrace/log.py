@@ -8,7 +8,7 @@ import inspect
 from pathlib import Path
 
 class LogEntry:
-    def __init__(self, timestamp, level, application, module, message, user):
+    def __init__(self, timestamp, level, application, module, message, user, file = None) -> None:
         self.timestamp = timestamp
         self.level = level
         self.application = application
@@ -17,9 +17,10 @@ class LogEntry:
         self.user = user
 
 class Logger:
-    def __init__(self, log_file_path, application, json_format):
+    def __init__(self, log_file_path, application, json_format, file = None):
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.DEBUG)
+        self.file = file
         formatter = logging.Formatter('%(asctime)s %(user)s (%(application)s:%(module)s) [%(levelname)s]: %(message)s')
 
         if log_file_path:
@@ -55,7 +56,10 @@ class Logger:
 
     def log(self, level, message):
         frame_info = inspect.stack()[1]
-        frame_filename = frame_info.filename
+        if self.file:
+            frame_filename = self.file
+        else:
+            frame_filename = frame_info.filename
         frame_lineno = frame_info.lineno
         frame_function = frame_info.function
 
